@@ -17,6 +17,16 @@ jobs:
           python-version: '3.12'
       - name: Install host test dependencies
         run: python3 -m pip install -r scripts/terminal-requirements.txt
+      - name: Select Xcode 16
+        run: |
+          ls -d /Applications/Xcode*.app
+          XC=$(ls -d /Applications/Xcode_16*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$XC" ]; then XC=$(ls -d /Applications/Xcode_*.app | sort -V | tail -1); fi
+          echo "using $XC"
+          sudo xcode-select -s "$XC"
+          echo "DEVELOPER_DIR=$XC/Contents/Developer" >> "$GITHUB_ENV"
+          xcodebuild -version
+          xcrun -sdk iphoneos -find mig
       - name: Prepare GPU host test sources
         run: python3 scripts/fetch-ios16-gpu-sources.py --out .cache/gpu-source
       - name: Compute kernel firmware cache key
