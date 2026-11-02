@@ -17,6 +17,8 @@ jobs:
           python-version: '3.12'
       - name: Install host test dependencies
         run: python3 -m pip install -r scripts/terminal-requirements.txt
+      - name: Prepare GPU host test sources
+        run: python3 scripts/fetch-ios16-gpu-sources.py --out .cache/gpu-source
       - name: Compute kernel firmware cache key
         id: firmware-key
         run: python3 scripts/firmware-cache.py key --group kernel
