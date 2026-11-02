@@ -6,7 +6,7 @@ permissions:
   actions: read
 jobs:
   kernel:
-    runs-on: macos-14
+    runs-on: macos-26
     env:
       JOBS: 3
       HOMEBREW_NO_AUTO_UPDATE: 1
@@ -20,7 +20,7 @@ jobs:
       - name: Select Xcode 16
         run: |
           ls -d /Applications/Xcode*.app
-          XC=$(ls -d /Applications/Xcode_16*.app 2>/dev/null | sort -V | tail -1)
+          XC=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
           if [ -z "$XC" ]; then XC=$(ls -d /Applications/Xcode_*.app | sort -V | tail -1); fi
           echo "using $XC"
           sudo xcode-select -s "$XC"
